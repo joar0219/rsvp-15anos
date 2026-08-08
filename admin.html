@@ -59,7 +59,7 @@
             const familiaUrl = encodeURIComponent(invitado.familia);
             const linkInvitacion = `${DOMINIO}/index.html?invitado=${familiaUrl}&pases=${invitado.pases}`;
             
-            const mensajeOriginal = `¡Hola ${invitado.familia}! Con mucha alegría les compartimos su pase VIP para los XV años de Valeria. Ábranlo aquí para guardar su código QR y confirmar asistencia: \n\n${linkInvitacion}`;
+            const mensajeOriginal = `¡Hola ${invitado.familia}! Con mucha alegría les compartimos su pase VIP para los XV años de Valeria. Les recordamos que esta invitación es personal e intransferible. Ábranla aquí para guardar su código QR y confirmar asistencia: \n\n${linkInvitacion}`;
             const mensajeWA = encodeURIComponent(mensajeOriginal);
             const linkWA = `https://wa.me/57${invitado.telefono}?text=${mensajeWA}`;
 
