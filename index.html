@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis 15 Años - Valeria Arcila Abadía</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cliente de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(135deg, #fce4dc 0%, #f7d2c4 50%, #f3c2b1 100%);
+        }
+        .title-font { font-family: 'Playfair Display', serif; }
+        .text-gold { color: #b8860b; }
+        .bg-gold-gradient { background: linear-gradient(135deg, rgba(255,245,242,0.95) 0%, rgba(255,240,236,0.95) 100%); }
+        .btn-gold { background: linear-gradient(135deg, #d4af37 0%, #aa771c 100%); }
+        .btn-gold:hover { background: linear-gradient(135deg, #c5a028 0%, #996615 100%); }
+    </style>
+</head>
+<body class="min-h-screen py-10 px-4 flex flex-col items-center justify-center">
+
+    <div class="max-w-xl w-full bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden border border-[#f3d3c8] relative">
+        
+        <!-- MARCA DE AGUA DE FONDO -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <img src="https://i.pinimg.com/736x/84/cc/c1/84ccc1b7708989daa9eb9da1f01bc1ed.jpg" alt="Fondo Marca de Agua" class="w-full h-full object-cover opacity-15 mix-blend-overlay">
+        </div>
+
+        <div class="relative z-10">
+
+            <div class="text-center pt-8 pb-2">
+                <span class="text-3xl">👑</span>
+            </div>
+
+            <!-- SECCIÓN INVITACIÓN -->
+            <div id="seccion-invitacion" class="px-8 pb-8 text-center">
+                <div class="mb-4 space-y-0.5">
+                    <p class="title-font italic text-base text-gray-700">José Orlando Arcila</p>
+                    <p class="title-font italic text-base text-gray-700">Natalia Lorena Abadía</p>
+                </div>
+
+                <div class="flex items-center justify-center my-3">
+                    <span class="h-[1px] w-16 bg-[#d4af37]"></span>
+                    <span class="mx-3 text-[#d4af37] text-sm">✦ ❦ ✦</span>
+                    <span class="h-[1px] w-16 bg-[#d4af37]"></span>
+                </div>
+                
+                <span class="text-[11px] uppercase tracking-[0.2em] text-[#b8860b] font-semibold">Tenemos el honor de invitarlos a celebrar los XV años de nuestra hija</span>
+                
+                <div class="my-4">
+                    <h1 class="title-font text-4xl sm:text-5xl font-bold text-[#b8860b] drop-shadow-sm whitespace-nowrap">Valeria</h1>
+                    <h2 class="title-font text-2xl sm:text-3xl italic text-gray-800 mt-1 whitespace-nowrap">Arcila Abadía</h2>
+                </div>
+
+                <div id="saludo-personalizado" class="mb-4 hidden">
+                    <p class="text-xs uppercase tracking-wider text-[#b8860b] font-bold">Invitación especial para:</p>
+                    <p id="nombre-invitado-tarjeta" class="title-font text-xl font-bold text-gray-800 mt-1"></p>
+                </div>
+
+                <p class="text-gray-600 text-sm max-w-md mx-auto my-6 italic font-serif">
+                    "Con inmensa gratitud a Dios por sus bondades y fidelidad, celebramos los quince años de nuestra amada hija. Nos alegraría contar con su presencia para compartir este momento de adoración, gratitud y bendición."
+                </p>
+
+                <div class="bg-gold-gradient py-4 px-5 rounded-2xl shadow-sm border border-[#f7ded4] mb-6 max-w-md mx-auto space-y-3">
+                    <div class="flex items-center justify-center space-x-6">
+                        <div class="text-center">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Fecha</p>
+                            <p class="text-xs sm:text-sm text-gray-800 font-medium">Sábado, 24 de Octubre de 2026</p>
+                        </div>
+                        <div class="h-8 w-[1px] bg-[#f2ded4]"></div>
+                        <div class="text-center">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Hora</p>
+                            <p class="text-xs sm:text-sm text-gray-800 font-medium">7:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-[#f2ded4] pt-2 text-center">
+                        <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Lugar</p>
+                        <p class="text-xs sm:text-sm text-gray-800 font-medium">Centro de Eventos Monarca</p>
+                        <p class="text-[11px] text-gray-500">Calle 14 D # 4-32, Roldanillo, Valle del Cauca</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#fcf7f4]/90 border border-[#f2ded4] rounded-xl p-4 text-center mb-6 shadow-sm">
+                    <span class="text-2xl"></span>
+                    <h3 class="font-semibold text-[#b8860b] text-sm mt-1 title-font">Lluvia de Sobres</h3>
+                    <p class="text-xs text-gray-600 mt-1 italic">
+                        "Tu presencia es nuestro mejor regalo, pero si deseas tener un detalle con nuestra quinceañera, tendremos lluvia de sobres."
+                    </p>
+                </div>
+
+                <p class="text-xs text-gray-500 mb-6">Confirmar asistencia al: <strong class="text-gray-700">318 654 1366  -  311 387 0976</strong></p>
+
+                <div class="space-y-3">
+                    <p class="text-sm font-medium text-gray-700 mb-2">¿Nos acompañarás en este día especial?</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button onclick="irAlFormulario('Sí')" class="w-full btn-gold text-white font-semibold py-3 rounded-xl transition duration-300 shadow-md">
+                             ¡Sí, asistiré!
+                        </button>
+                        <button onclick="registrarNoAsiste()" class="w-full bg-white/90 border border-[#d4af37] text-[#b8860b] font-semibold py-3 rounded-xl hover:bg-[#fff9f5] transition duration-300">
+                            No podré asistir
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN FORMULARIO -->
+            <div id="seccion-formulario" class="p-8 hidden">
+                <div class="text-center mb-6">
+                    <button onclick="volverAInvitacion()" class="text-xs text-[#b8860b] hover:underline mb-2 inline-block font-medium">← Volver a la tarjeta</button>
+                    <h3 class="title-font text-2xl font-bold text-gray-800">Confirmación de Asistencia</h3>
+                    <p class="text-gray-500 text-sm mt-1">Por favor, completa tus datos antes de la fecha límite.</p>
+                </div>
+
+                <form id="rsvp-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo / Familia</label>
+                        <input type="text" id="nombre" required placeholder="Ej. Familia Pérez / Juan Pérez" class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#d4af37] focus:outline-none bg-white/90 transition-colors">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Número de pases confirmados</label>
+                        <select id="pases" class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#d4af37] focus:outline-none bg-white/90 transition-colors">
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Un mensaje para la quinceañera (Opcional)</label>
+                        <textarea id="mensaje" rows="2" placeholder="Escribe tus buenos deseos..." class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#d4af37] focus:outline-none bg-white/90"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full btn-gold text-white font-semibold py-3 rounded-xl transition duration-300 shadow-lg">
+                        Enviar Confirmación
+                    </button>
+                </form>
+            </div>
+
+            <!-- SECCIÓN DE MENSAJE DE ÉXITO CON CÓDIGO QR (BOLETO VIP) -->
+            <div id="mensaje-exito" class="hidden p-6 text-center">
+                <div class="p-6 bg-gradient-to-b from-[#fdfbfb] to-[#f4e8e1] rounded-2xl border-2 border-[#d4af37] shadow-xl relative overflow-hidden">
+                    <span class="text-4xl mb-2 inline-block">🎟️</span>
+                    <p class="font-bold text-xl title-font text-[#b8860b]">¡Pase VIP Confirmado!</p>
+        
+                    <!-- Datos del invitado impresos en el boleto -->
+                    <div class="mt-4 mb-3 bg-white/80 rounded-xl p-3 border border-[#f3d3c8] shadow-sm">
+                       <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-1">Invitado Especial</p>
+                       <p id="ticket-nombre" class="title-font font-bold text-2xl text-gray-800 leading-tight"></p>
+                       <div class="mt-2 inline-block bg-[#d4af37] text-white text-xs font-bold px-3 py-1 rounded-full">
+                           <span id="ticket-pases"></span>
+                       </div>
+                    </div>
+        
+                    <!-- Contenedor del QR -->
+                    <div class="mt-4 flex justify-center bg-white p-3 rounded-xl shadow-inner mx-auto w-max border border-gray-200">
+                        <img id="qr-code-img" src="" alt="Tu Código QR de Acceso" class="w-40 h-40">
+                    </div>
+        
+                    <p class="text-xs mt-4 text-gray-600 font-medium">📸 Tómale una captura de pantalla a este pase y preséntalo en la recepción.</p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN DE BLOQUEO -->
+            <div id="mensaje-bloqueo" class="hidden p-8 text-center">
+                <div class="p-6 bg-amber-50/90 text-amber-900 rounded-2xl border border-amber-200">
+                    <span class="text-4xl mb-2 inline-block">🔒</span>
+                    <p class="font-bold text-xl title-font">Invitación Respondida</p>
+                    <p class="text-sm mt-2 text-gray-600">Ya has respondido anteriormente a esta invitación. Si necesitas hacer cambios, comunícate al 318 654 1366.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        const SUPABASE_URL = 'https://mwkoguwyvboozioxpeha.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_UIQftmocaMdJ3lr9Sp2jbw_zQPcbJ2d'; 
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const seccionInvitacion = document.getElementById('seccion-invitacion');
+        const seccionFormulario = document.getElementById('seccion-formulario');
+        const mensajeExito = document.getElementById('mensaje-exito');
+        const mensajeBloqueo = document.getElementById('mensaje-bloqueo');
+        const form = document.getElementById('rsvp-form');
+        const qrCodeImg = document.getElementById('qr-code-img');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const estadoPrevio = localStorage.getItem('valeria_15_estado');
+            if (estadoPrevio === 'respondido') {
+                seccionInvitacion.classList.add('hidden');
+                mensajeBloqueo.classList.remove('hidden');
+                return;
+            }
+
+            // 1. Leer parámetros de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const invitadoParam = urlParams.get('invitado');
+            const pasesParam = urlParams.get('pases');
+
+            const inputNombre = document.getElementById('nombre');
+            const selectPases = document.getElementById('pases');
+
+            // 2. Si viene el nombre, lo ponemos y lo bloqueamos
+            if (invitadoParam) {
+                const nombreDecodificado = decodeURIComponent(invitadoParam);
+                
+                // Mostrar saludo en la portada
+                document.getElementById('nombre-invitado-tarjeta').textContent = nombreDecodificado;
+                document.getElementById('saludo-personalizado').classList.remove('hidden');
+                
+                // Llenar y bloquear el input del formulario
+                inputNombre.value = nombreDecodificado;
+                inputNombre.readOnly = true;
+                inputNombre.classList.add('bg-gray-100', 'cursor-not-allowed');
+                inputNombre.classList.remove('bg-white/90');
+            }
+
+            // 3. Configurar los pases
+            selectPases.innerHTML = '';
+            
+            if (pasesParam) {
+                // Si vienen los pases por URL, obligamos a que sea esa única opción y la bloqueamos
+                const option = document.createElement('option');
+                option.value = pasesParam;
+                option.textContent = `${pasesParam} ${pasesParam == 1 ? 'Pase' : 'Pases'}`;
+                selectPases.appendChild(option);
+                
+                // Bloquear visual y funcionalmente el selector
+                selectPases.setAttribute('disabled', true); // disabled evita que se despliegue
+                selectPases.classList.add('bg-gray-100', 'cursor-not-allowed');
+                selectPases.classList.remove('bg-white/90');
+            } else {
+                // Comportamiento normal si no hay link (ej: pruebas manuales)
+                for (let i = 1; i <= 4; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `${i} ${i === 1 ? 'Pase' : 'Pases'}`;
+                    selectPases.appendChild(option);
+                }
+            }
+        });
+
+        function irAlFormulario() {
+            seccionInvitacion.classList.add('hidden');
+            seccionFormulario.classList.remove('hidden');
+        }
+
+        function volverAInvitacion() {
+            seccionFormulario.classList.add('hidden');
+            seccionInvitacion.classList.remove('hidden');
+        }
+
+        async function registrarNoAsiste() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let nombreNoAsiste = urlParams.get('invitado') ? decodeURIComponent(urlParams.get('invitado')) : null;
+
+            if (!nombreNoAsiste) {
+                nombreNoAsiste = prompt("Por favor, indícanos tu nombre o el de tu familia para registrar que no podrás asistir:");
+                if (!nombreNoAsiste) return;
+            }
+
+            const { error } = await supabaseClient
+                .from('asistencias')
+                .insert([{ 
+                    nombre_invitado: nombreNoAsiste, 
+                    asistira: 'No', 
+                    numero_pases: 0, 
+                    mensaje: 'No podrá asistir' 
+                }]);
+
+            if (error) {
+                alert('Hubo un error. Inténtalo de nuevo.');
+            } else {
+                localStorage.setItem('valeria_15_estado', 'respondido');
+                seccionInvitacion.classList.add('hidden');
+                mensajeBloqueo.classList.remove('hidden');
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            // Si el select está "disabled", su valor no se lee con .value de forma habitual,
+            // pero como tenemos el parámetro en la URL, lo tomamos de ahí si existe, si no, del select.
+            const pasesParam = new URLSearchParams(window.location.search).get('pases');
+            const pases = pasesParam ? parseInt(pasesParam) : parseInt(document.getElementById('pases').value);
+            const mensaje = document.getElementById('mensaje').value;
+
+            // Inserción a Supabase
+            const { data, error } = await supabaseClient
+                .from('asistencias')
+                .insert([{ 
+                    nombre_invitado: nombre, 
+                    asistira: 'Sí', 
+                    numero_pases: pases, 
+                    mensaje: mensaje 
+                }])
+                .select(); 
+
+            if (error) {
+                alert('Hubo un error al enviar tu respuesta. Inténtalo de nuevo.');
+                console.error(error);
+            } else {
+                // Obtenemos el ID único
+                const registroId = data[0].id;
+
+                // Generamos el QR para que SOLO contenga el ID secreto del invitado
+                qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${registroId}`;
+
+                // Mostramos el éxito y bloqueamos la recarga
+                localStorage.setItem('valeria_15_estado', 'respondido');
+                seccionFormulario.classList.add('hidden');
+
+                // Llenar los datos visuales del boleto VIP
+                document.getElementById('ticket-nombre').textContent = nombre;
+                document.getElementById('ticket-pases').textContent = pases === 1 ? '1 PASE' : `${pases} PASES`;
+
+                mensajeExito.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

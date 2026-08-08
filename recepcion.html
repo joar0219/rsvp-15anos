@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recepción - Mis 15 Años</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cliente de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Librería de Escaneo de QR -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center py-8 px-4">
+
+    <!-- Encabezado -->
+    <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-[#d4af37]">Control de Acceso</h1>
+        <p class="text-gray-400 text-sm">XV Años de Valeria</p>
+    </div>
+
+    <!-- Contenedor del Escáner -->
+    <div class="w-full max-w-md bg-white rounded-2xl overflow-hidden shadow-lg shadow-black/50 mb-6 border-2 border-gray-800">
+        <div id="reader" class="w-full"></div>
+    </div>
+
+    <!-- Panel de Resultados (Aquí aparecerá si puede entrar o no) -->
+    <div id="resultado-panel" class="w-full max-w-md p-6 rounded-2xl hidden text-center shadow-lg border">
+        <!-- El contenido se inyectará con Javascript -->
+    </div>
+
+    <script>
+        // 1. Configuración de Supabase
+        const SUPABASE_URL = 'https://mwkoguwyvboozioxpeha.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_UIQftmocaMdJ3lr9Sp2jbw_zQPcbJ2d'; 
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Variables de control
+        const resultadoPanel = document.getElementById('resultado-panel');
+        let html5QrcodeScanner;
+        let isProcessing = false;
+
+        // 2. Función que se ejecuta cuando se lee un código QR con éxito
+        async function onScanSuccess(decodedText, decodedResult) {
+            // Si ya estamos procesando un código, ignoramos nuevas lecturas
+            if (isProcessing) return;
+            isProcessing = true;
+
+            // Pausar el escáner visualmente
+            html5QrcodeScanner.pause(true);
+            mostrarCargando();
+
+            try {
+                // El QR de la tarjeta genera un link (ej: https://tusitio.com/scanner.html?id=5)
+                // Extraemos el ID de esa URL
+                const url = new URL(decodedText);
+                const registroId = url.searchParams.get('id') || decodedText;
+
+                await procesarIngreso(registroId);
+            } catch (error) {
+                // Si el QR no era una URL, intentamos usar el texto directamente (por si solo es el número)
+                await procesarIngreso(decodedText);
+            }
+        }
+
+        function onScanFailure(error) {
+            // Ocurre muchas veces por segundo cuando no hay un QR en la cámara. Lo ignoramos.
+        }
+
+        // 3. Conexión con Supabase para validar el Ingreso
+        async function procesarIngreso(id) {
+            // A. Buscar a la persona en la Base de Datos
+            const { data, error } = await supabaseClient
+                .from('asistencias')
+                .select('*')
+                .eq('id', id)
+                .single();
+
+            if (error || !data) {
+                mostrarError("QR Inválido o Invitado no encontrado.");
+                return;
+            }
+
+            // B. Validar si ya había ingresado antes
+            if (data.ingreso_confirmado === true) {
+                mostrarAlerta(`<b>${data.nombre_invitado}</b> ya fue registrado previamente.`);
+                return;
+            }
+
+            // C. Si todo está en orden, marcar como ingresado (true)
+            const { error: updateError } = await supabaseClient
+                .from('asistencias')
+                .update({ ingreso_confirmado: true })
+                .eq('id', id);
+
+            if (updateError) {
+                mostrarError("Error al conectar con la base de datos.");
+            } else {
+                mostrarExito(`¡Acceso Permitido!<br><span class="text-3xl mt-2 block font-bold">${data.nombre_invitado}</span><br>Pases confirmados: <span class="text-2xl font-bold">${data.numero_pases}</span>`);
+            }
+        }
+
+        // ==========================================
+        // FUNCIONES PARA LA INTERFAZ DE USUARIO
+        // ==========================================
+        function mostrarCargando() {
+            resultadoPanel.className = 'w-full max-w-md p-6 rounded-2xl text-center shadow-lg border border-blue-400 bg-blue-900 text-blue-100 block';
+            resultadoPanel.innerHTML = `<p class="text-lg font-semibold animate-pulse">Verificando invitación...</p>`;
+        }
+
+        function mostrarExito(mensaje) {
+            resultadoPanel.className = 'w-full max-w-md p-6 rounded-2xl text-center shadow-lg border border-green-500 bg-green-900 text-green-100 block';
+            resultadoPanel.innerHTML = `<span class="text-5xl mb-2 block">✅</span><p class="text-lg">${mensaje}</p><button onclick="reiniciarEscaner()" class="mt-4 bg-green-600 hover:bg-green-500 px-6 py-2 rounded-full font-bold transition">Siguiente Invitado</button>`;
+        }
+
+        function mostrarAlerta(mensaje) {
+            resultadoPanel.className = 'w-full max-w-md p-6 rounded-2xl text-center shadow-lg border border-yellow-500 bg-yellow-900 text-yellow-100 block';
+            resultadoPanel.innerHTML = `<span class="text-5xl mb-2 block">⚠️</span><p class="text-lg text-yellow-300">¡Ingreso Duplicado!</p><p class="mt-2">${mensaje}</p><button onclick="reiniciarEscaner()" class="mt-4 bg-yellow-600 hover:bg-yellow-500 text-white px-6 py-2 rounded-full font-bold transition">Escanear de Nuevo</button>`;
+        }
+
+        function mostrarError(mensaje) {
+            resultadoPanel.className = 'w-full max-w-md p-6 rounded-2xl text-center shadow-lg border border-red-500 bg-red-900 text-red-100 block';
+            resultadoPanel.innerHTML = `<span class="text-5xl mb-2 block">❌</span><p class="text-lg font-bold">${mensaje}</p><button onclick="reiniciarEscaner()" class="mt-4 bg-red-600 hover:bg-red-500 px-6 py-2 rounded-full font-bold transition">Intentar de Nuevo</button>`;
+        }
+
+        function reiniciarEscaner() {
+            resultadoPanel.classList.add('hidden');
+            isProcessing = false;
+            html5QrcodeScanner.resume();
+        }
+
+        // 4. Inicializar el Escáner de la Cámara
+        window.addEventListener('DOMContentLoaded', () => {
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader", { fps: 10, qrbox: {width: 250, height: 250} }, false);
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        });
+    </script>
+</body>
+</html>
