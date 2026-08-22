@@ -14,39 +14,39 @@
     <script>
         // 1. Lista de invitados de Excel
         const listaInvitados = [
-    { familia: "Familia Arcila Ramirez", pases: 3, telefono: "3105878273" },
-    { familia: "Familia Arcila Hernandez", pases: 3, telefono: "3135019779" },
-    { familia: "Familia Herrera Arcila", pases: 3, telefono: "3225780748" },
-    { familia: "Familia Abadía Abadía", pases: 3, telefono: "3118381763" },
-    { familia: "Ofelia Granada", pases: 2, telefono: "3233029328" },
-    { familia: "Diana Maria Catañeda", pases: 2, telefono: "3173591202" },
-    { familia: "Aleida Jaramillo Abadía", pases: 1, telefono: "3166677137" },
-    { familia: "Nhora Liliana Jaramillo", pases: 2, telefono: "3122069347"},
-    { familia: "Ana Beatriz Jaramillo Abadía", pases: 1, telefono: "3156857534"},
-    { familia: "Familia Roncancio Abadía", pases: 2, telefono: "3188029065"},
-    { familia: "Margarita Liliana Roncancio Abadía", pases: 1, telefono: "3174026211"},
-    { familia: "Rubiela Abadía", pases: 1, telefono: "3013309555"},
-    { familia: "Martha Cecilia Abadía", pases: 1, telefono: "3244334254"},
-    { familia: "Familia Fernandez Diaz", pases: 2, telefono: "3117045296"},
-    { familia: "Familia Bermudez Canizales", pases: 4, telefono: "3222156409"},
-    { familia: "Familia Vargas Garcia", pases: 2, telefono: "3188693728"},
-    { familia: "Martha Mesa Campiño", pases: 1, telefono: "3122139749"},
-    { familia: "Dra Stella Vallejo", pases: 1, telefono: "3156675784"},
-    { familia: "Familia Noreña Morales", pases: 3, telefono: "3147744648"},
-    { familia: "Zoraida Londoño", pases: 1, telefono: "3116455206"},
-    { familia: "Leonel Romero", pases: 1, telefono: "3156027671"},
-    { familia: "Familia Arcila Romero", pases: 3, telefono: "3148954648"},
-    { familia: "Juliana Andrea Padilla Montoya", pases: 1, telefono: "3154790888"},
-    { familia: "Eliana Fernanda Rodriguez", pases: 1, telefono: "3137588004"},
-    { familia: "Maria de los Ángeles Gomez", pases: 1, telefono: "3175646639"},
-    { familia: "Michael D´Saint", pases: 2, telefono: "3116054913"},
-    { familia: "Saray Osorio Castillo", pases: 1, telefono: "3218350060"},
-    { familia: "Jade Sanchez Velez", pases: 1, telefono: "3127520668"},
-    { familia: "Johan Bedoya Guapacha", pases: 1, telefono: "3145487137"},
-    { familia: "Jean Paul Franco Bermudez", pases: 1, telefono: "3122243927"},
-    { familia: "Sujeilys Alexandra Padilla", pases: 1, telefono: "3180109842"},
-    { familia: "Danna Alejandra Muñoz", pases: 1, telefono: "3235294554"},
-    { familia: "Familia Arcila Abadía", pases: 4, telefono: "3186541366"}
+    { familia: "Familia Arcila Ramirez", 
+    nombres: "Orlando Arcila - Aura Cecilia Ramirez - Ana MAria Arcila",
+    pases: 3, telefono: "3105878273" },
+    { familia: "Familia Arcila Hernandez", 
+    nombres: "Daniel Andres Arcila - Liszeth Hernadez - Christopher Arcila",
+    pases: 3, telefono: "3135019779" },
+    { familia: "Familia Herrera Arcila", 
+    nombres: "José Gabriel Herrera - Aura Nidia Arcila - John Esteban Herrera",
+    pases: 3, telefono: "3225780748" },
+    { familia: "Familia Abadía Abadía", 
+    nombres: "Gustavo Abadía - Maritza A. - Hector José A.",
+    pases: 3, telefono: "3118381763" },
+    { familia: "Ofelia Granada", 
+    nombres: "Ofelia Granada",
+    pases: 1, telefono: "3233029328" },
+    { familia: "Alex Granada", 
+    nombres: "Alex Granada",
+    pases: 1, telefono: "3205481072" },
+    { familia: "Diana Maria Catañeda", 
+    nombres: "Diana Maria Castañeda - Mariana Granada C",
+    pases: 2, telefono: "3173591202" },
+    { familia: "Familia Escola Arcila", 
+    nombres: "Ruben Escola - Lina Marcela - Annette - Abraham - Isaac",
+    pases: 5, telefono: "+34633658731"},
+    { familia: "Familia Arcila Romero", 
+    nombres: "José Neyder Arcila - Sarai Romero - Erick Arcila",
+    pases: 3, telefono: "3148954648"},
+    { familia: "Leonel Romero Castaño", 
+    nombres: "Leonel Romero Castaño",
+    pases: 1, telefono: "3156027671"},
+    { familia: "Familia Arcila Abadía", 
+    nombres: "José O. Arcila - Natalia Abadía - Valeria Arcila - Natalie",
+    pases: 4, telefono: "3186541366"}
     
 ];
 
@@ -57,6 +57,7 @@
 
         listaInvitados.forEach(invitado => {
             const familiaUrl = encodeURIComponent(invitado.familia);
+            const nombresUrl = encodeURIComponent(invitado.nombres || "");
             const linkInvitacion = `${DOMINIO}/index.html?invitado=${familiaUrl}&pases=${invitado.pases}`;
             
             const mensajeOriginal = `¡Hola ${invitado.familia}! Con mucha alegría les compartimos su pase VIP para los XV años de Valeria. Les recordamos que esta invitación es personal e intransferible. Ábranla aquí para guardar su código QR y confirmar asistencia: \n\n${linkInvitacion}`;

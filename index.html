@@ -46,7 +46,7 @@
 
                 <div class="flex items-center justify-center my-3">
                     <span class="h-[1px] w-16 bg-[#d4af37]"></span>
-                    <span class="mx-3 text-[#d4af37] text-sm">✦ ❦ ✦</span>
+                    <span class="mx-3 text-[#d4af37] text-sm"></span>
                     <span class="h-[1px] w-16 bg-[#d4af37]"></span>
                 </div>
                 
@@ -63,19 +63,19 @@
                 </div>
 
                 <p class="text-gray-600 text-sm max-w-md mx-auto my-6 italic font-serif">
-                    "Con inmensa gratitud a Dios por sus bondades y fidelidad, celebramos los quince años de nuestra amada hija. Nos alegraría contar con su presencia para compartir este momento de adoración, gratitud y bendición."
+                    "Con inmensa gratitud a Dios por sus bondades y fidelidad, celebramos los quince años de nuestra amada hija. Nos alegraría contar con su presencia para compartir este tiempo en Familia."
                 </p>
 
                 <div class="bg-gold-gradient py-4 px-5 rounded-2xl shadow-sm border border-[#f7ded4] mb-6 max-w-md mx-auto space-y-3">
                     <div class="flex items-center justify-center space-x-6">
                         <div class="text-center">
                             <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Fecha</p>
-                            <p class="text-xs sm:text-sm text-gray-800 font-medium">Sábado, 24 de Octubre de 2026</p>
+                            <p class="text-xs sm:text-sm text-gray-800 font-medium">Sábado, 5 de Septiembre de 2026</p>
                         </div>
                         <div class="h-8 w-[1px] bg-[#f2ded4]"></div>
                         <div class="text-center">
                             <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Hora</p>
-                            <p class="text-xs sm:text-sm text-gray-800 font-medium">7:00 PM</p>
+                            <p class="text-xs sm:text-sm text-gray-800 font-medium">12m</p>
                         </div>
                     </div>
                     <div class="border-t border-[#f2ded4] pt-2 text-center">
@@ -123,12 +123,11 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo / Familia</label>
                         <input type="text" id="nombre" required placeholder="Ej. Familia Pérez / Juan Pérez" class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#d4af37] focus:outline-none bg-white/90 transition-colors">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Número de pases confirmados</label>
-                        <select id="pases" class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#d4af37] focus:outline-none bg-white/90 transition-colors">
-                        </select>
+                        
+                        <!-- NUEVO: Aquí aparecerán los nombres detallados -->
+                        <p id="contenedor-nombres" class="text-xs text-[#b8860b] mt-2 hidden">
+                            <span class="font-bold">Pases válidos para:</span> <span id="nombres-detalle"></span>
+                        </p>
                     </div>
 
                     <div>
@@ -145,7 +144,7 @@
             <!-- SECCIÓN DE MENSAJE DE ÉXITO CON CÓDIGO QR (BOLETO VIP) -->
             <div id="mensaje-exito" class="hidden p-6 text-center">
                 <div class="p-6 bg-gradient-to-b from-[#fdfbfb] to-[#f4e8e1] rounded-2xl border-2 border-[#d4af37] shadow-xl relative overflow-hidden">
-                    <span class="text-4xl mb-2 inline-block">🎟️</span>
+                    <span class="text-4xl mb-2 inline-block"></span>
                     <p class="font-bold text-xl title-font text-[#b8860b]">¡Pase VIP Confirmado!</p>
         
                     <!-- Datos del invitado impresos en el boleto -->
@@ -169,7 +168,7 @@
             <!-- SECCIÓN DE BLOQUEO -->
             <div id="mensaje-bloqueo" class="hidden p-8 text-center">
                 <div class="p-6 bg-amber-50/90 text-amber-900 rounded-2xl border border-amber-200">
-                    <span class="text-4xl mb-2 inline-block">🔒</span>
+                    <span class="text-4xl mb-2 inline-block"></span>
                     <p class="font-bold text-xl title-font">Invitación Respondida</p>
                     <p class="text-sm mt-2 text-gray-600">Ya has respondido anteriormente a esta invitación. Si necesitas hacer cambios, comunícate al 318 654 1366.</p>
                 </div>
@@ -203,11 +202,12 @@
             const urlParams = new URLSearchParams(window.location.search);
             const invitadoParam = urlParams.get('invitado');
             const pasesParam = urlParams.get('pases');
+            const nombresParam = urlParams.get('nombres'); // <-- Capturamos los nombres
 
             const inputNombre = document.getElementById('nombre');
             const selectPases = document.getElementById('pases');
 
-            // 2. Si viene el nombre, lo ponemos y lo bloqueamos
+            // 2. Si viene el nombre de familia, lo ponemos y lo bloqueamos
             if (invitadoParam) {
                 const nombreDecodificado = decodeURIComponent(invitadoParam);
                 
@@ -220,6 +220,13 @@
                 inputNombre.readOnly = true;
                 inputNombre.classList.add('bg-gray-100', 'cursor-not-allowed');
                 inputNombre.classList.remove('bg-white/90');
+            }
+
+            // NUEVO: Si vienen los nombres detallados, los mostramos debajo del input
+            if (nombresParam) {
+                const nombresDecodificados = decodeURIComponent(nombresParam);
+                document.getElementById('nombres-detalle').textContent = nombresDecodificados;
+                document.getElementById('contenedor-nombres').classList.remove('hidden');
             }
 
             // 3. Configurar los pases
