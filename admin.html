@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Envíos - XV Valeria</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -14,41 +15,40 @@
     <script>
         // 1. Lista de invitados de Excel
         const listaInvitados = [
-    { familia: "Familia Arcila Ramirez", 
-    nombres: "Orlando Arcila - Aura Cecilia Ramirez - Ana MAria Arcila",
-    pases: 3, telefono: "3105878273" },
-    { familia: "Familia Arcila Hernandez", 
-    nombres: "Daniel Andres Arcila - Liszeth Hernadez - Christopher Arcila",
-    pases: 3, telefono: "3135019779" },
-    { familia: "Familia Herrera Arcila", 
-    nombres: "José Gabriel Herrera - Aura Nidia Arcila - John Esteban Herrera",
-    pases: 3, telefono: "3225780748" },
-    { familia: "Familia Abadía Abadía", 
-    nombres: "Gustavo Abadía - Maritza A. - Hector José A.",
-    pases: 3, telefono: "3118381763" },
-    { familia: "Ofelia Granada", 
-    nombres: "Ofelia Granada",
-    pases: 1, telefono: "3233029328" },
-    { familia: "Alex Granada", 
-    nombres: "Alex Granada",
-    pases: 1, telefono: "3205481072" },
-    { familia: "Diana Maria Catañeda", 
-    nombres: "Diana Maria Castañeda - Mariana Granada C",
-    pases: 2, telefono: "3173591202" },
-    { familia: "Familia Escola Arcila", 
-    nombres: "Ruben Escola - Lina Marcela - Annette - Abraham - Isaac",
-    pases: 5, telefono: "+34633658731"},
-    { familia: "Familia Arcila Romero", 
-    nombres: "José Neyder Arcila - Sarai Romero - Erick Arcila",
-    pases: 3, telefono: "3148954648"},
-    { familia: "Leonel Romero Castaño", 
-    nombres: "Leonel Romero Castaño",
-    pases: 1, telefono: "3156027671"},
-    { familia: "Familia Arcila Abadía", 
-    nombres: "José O. Arcila - Natalia Abadía - Valeria Arcila - Natalie",
-    pases: 4, telefono: "3186541366"}
-    
-];
+            { familia: "Familia Arcila Ramirez", 
+            nombres: "Orlando Arcila - Aura Cecilia Ramirez - Ana MAria Arcila",
+            pases: 3, telefono: "3105878273" },
+            { familia: "Familia Arcila Hernandez", 
+            nombres: "Daniel Andres Arcila - Liszeth Hernadez - Christopher Arcila",
+            pases: 3, telefono: "3135019779" },
+            { familia: "Familia Herrera Arcila", 
+            nombres: "José Gabriel Herrera - Aura Nidia Arcila - John Esteban Herrera",
+            pases: 3, telefono: "3225780748" },
+            { familia: "Familia Abadía Abadía", 
+            nombres: "Gustavo Abadía - Maritza A. - Hector José A.",
+            pases: 3, telefono: "3118381763" },
+            { familia: "Ofelia Granada", 
+            nombres: "Ofelia Granada",
+            pases: 1, telefono: "3233029328" },
+            { familia: "Alex Granada", 
+            nombres: "Alex Granada",
+            pases: 1, telefono: "3205481072" },
+            { familia: "Diana Maria Castañeda", 
+            nombres: "Diana Maria Castañeda - Mariana Granada C",
+            pases: 2, telefono: "3173591202" },
+            { familia: "Familia Escola Arcila", 
+            nombres: "Ruben Escola - Lina Marcela - Annette - Abraham - Isaac",
+            pases: 5, telefono: "34633658731"},
+            { familia: "Familia Arcila Romero", 
+            nombres: "José Neyder Arcila - Sarai Romero - Erick Arcila",
+            pases: 3, telefono: "3148954648"},
+            { familia: "Leonel Romero Castaño", 
+            nombres: "Leonel Romero Castaño",
+            pases: 1, telefono: "3156027671"},
+            { familia: "Familia Arcila Abadía", 
+            nombres: "José O. Arcila - Natalia Abadía - Valeria Arcila - Natalie",
+            pases: 4, telefono: "3113870976"}
+        ];
 
         // 2. Aquí pondrás tu dominio oficial de Vercel más adelante
         const DOMINIO = "https://valeria-rsvp.vercel.app"; 
@@ -58,17 +58,25 @@
         listaInvitados.forEach(invitado => {
             const familiaUrl = encodeURIComponent(invitado.familia);
             const nombresUrl = encodeURIComponent(invitado.nombres || "");
-            const linkInvitacion = `${DOMINIO}/index.html?invitado=${familiaUrl}&pases=${invitado.pases}`;
+            
+            // CORRECCIÓN 1: Se agregó &nombres=${nombresUrl} al final del enlace
+            const linkInvitacion = `${DOMINIO}/index.html?invitado=${familiaUrl}&pases=${invitado.pases}&nombres=${nombresUrl}`;
             
             const mensajeOriginal = `¡Hola ${invitado.familia}! Con mucha alegría les compartimos su pase VIP para los XV años de Valeria. Les recordamos que esta invitación es personal e intransferible. Ábranla aquí para guardar su código QR y confirmar asistencia: \n\n${linkInvitacion}`;
             const mensajeWA = encodeURIComponent(mensajeOriginal);
-            const linkWA = `https://wa.me/57${invitado.telefono}?text=${mensajeWA}`;
+            
+            // CORRECCIÓN 2: Lógica inteligente para el número de teléfono
+            let telefonoLimpio = invitado.telefono.replace(/\D/g, '');
+            const numeroFormateado = telefonoLimpio.length === 10 ? `57${telefonoLimpio}` : telefonoLimpio;
+            
+            // Ahora usamos numeroFormateado en lugar de forzar el 57
+            const linkWA = `https://wa.me/${numeroFormateado}?text=${mensajeWA}`;
 
             contenedor.innerHTML += `
                 <div class="flex justify-between items-center p-4 border border-gray-200 rounded-xl bg-gray-50 hover:bg-white transition shadow-sm">
                     <div>
                         <p class="font-bold text-lg text-gray-800">${invitado.familia}</p>
-                        <p class="text-sm text-gray-500 font-medium">${invitado.pases} Pases asignados • Tel: ${invitado.telefono}</p>
+                        <p class="text-sm text-gray-500 font-medium">${invitado.pases} Pases asignados • Tel: +${numeroFormateado}</p>
                     </div>
                     <a href="${linkWA}" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full flex items-center transition shadow-md">
                         <span class="mr-2"></span> Enviar 
