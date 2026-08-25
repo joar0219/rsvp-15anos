@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis 15 Años - Valeria Arcila Abadía</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Cliente de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         body { 
@@ -26,18 +23,16 @@
 
     <div class="max-w-xl w-full bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden border border-[#f3d3c8] relative">
         
-        <!-- MARCA DE AGUA DE FONDO -->
         <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <img src="https://i.pinimg.com/736x/84/cc/c1/84ccc1b7708989daa9eb9da1f01bc1ed.jpg" alt="Fondo Marca de Agua" class="w-full h-full object-cover opacity-15 mix-blend-overlay">
         </div>
 
         <div class="relative z-10">
-
             <div class="text-center pt-8 pb-2">
                 <span class="text-3xl"></span>
             </div>
 
-            <!-- SECCIÓN INVITACIÓN -->
+            <!-- SECCIÓN INVITACIÓN (SIEMPRE VISIBLE) -->
             <div id="seccion-invitacion" class="px-8 pb-8 text-center">
                 <div class="mb-4 space-y-0.5">
                     <p class="title-font italic text-base text-gray-700">José Orlando Arcila</p>
@@ -87,10 +82,11 @@
 
                 <p class="text-xs text-gray-500 mb-6">Confirmar asistencia al: <strong class="text-gray-700">318 654 1366  -  311 387 0976</strong></p>
 
-                <div class="space-y-3">
+                <!-- BOTONES DE ACCIÓN (Cambian si ya respondieron) -->
+                <div id="botones-accion" class="space-y-3">
                     <p class="text-sm font-medium text-gray-700 mb-2">¿Nos acompañarás en este día especial?</p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <button onclick="irAlFormulario('Sí')" class="w-full btn-gold text-white font-semibold py-3 rounded-xl transition duration-300 shadow-md">
+                        <button onclick="irAlFormulario()" class="w-full btn-gold text-white font-semibold py-3 rounded-xl transition duration-300 shadow-md">
                              ¡Sí, asistiré!
                         </button>
                         <button onclick="registrarNoAsiste()" class="w-full bg-white/90 border border-[#d4af37] text-[#b8860b] font-semibold py-3 rounded-xl hover:bg-[#fff9f5] transition duration-300">
@@ -116,13 +112,11 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo / Familia</label>
                         <input type="text" id="nombre" required placeholder="Ej. Familia Pérez / Juan Pérez" class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#d4af37] focus:outline-none bg-white/90 transition-colors">
                         
-                        <!-- NUEVO: Aquí aparecerán los nombres detallados -->
                         <p id="contenedor-nombres" class="text-xs text-[#b8860b] mt-2 hidden">
                             <span class="font-bold">Pases válidos para:</span> <span id="nombres-detalle"></span>
                         </p>
                     </div>
 
-                    <!-- ESTO FALTABA: El campo del número de pases -->
                     <div>
                         <label for="pases" class="block text-sm font-medium text-gray-700 mb-1">Número de pases confirmados</label>
                         <select id="pases" name="pases" title="Número de pases" class="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-[#d4af37] focus:outline-none bg-white/90 transition-colors">
@@ -142,11 +136,12 @@
 
             <!-- SECCIÓN DE MENSAJE DE ÉXITO CON CÓDIGO QR (BOLETO VIP) -->
             <div id="mensaje-exito" class="hidden p-6 text-center">
+                <button onclick="volverAInvitacionDesdeExito()" class="text-xs text-[#b8860b] hover:underline mb-4 inline-block font-medium">← Volver a los detalles de la tarjeta</button>
+                
                 <div class="p-6 bg-gradient-to-b from-[#fdfbfb] to-[#f4e8e1] rounded-2xl border-2 border-[#d4af37] shadow-xl relative overflow-hidden">
                     <span class="text-4xl mb-2 inline-block"></span>
                     <p class="font-bold text-xl title-font text-[#b8860b]">¡Pase VIP Confirmado!</p>
         
-                    <!-- Datos del invitado impresos en el boleto -->
                     <div class="mt-4 mb-3 bg-white/80 rounded-xl p-3 border border-[#f3d3c8] shadow-sm">
                        <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-1">Invitado Especial</p>
                        <p id="ticket-nombre" class="title-font font-bold text-2xl text-gray-800 leading-tight"></p>
@@ -155,21 +150,11 @@
                        </div>
                     </div>
         
-                    <!-- Contenedor del QR -->
                     <div class="mt-4 flex justify-center bg-white p-3 rounded-xl shadow-inner mx-auto w-max border border-gray-200">
                         <img id="qr-code-img" src="" alt="Tu Código QR de Acceso" class="w-40 h-40">
                     </div>
         
                     <p class="text-xs mt-4 text-gray-600 font-medium">📸 Tómale una captura de pantalla a este pase y preséntalo en la recepción.</p>
-                </div>
-            </div>
-
-            <!-- SECCIÓN DE BLOQUEO -->
-            <div id="mensaje-bloqueo" class="hidden p-8 text-center">
-                <div class="p-6 bg-amber-50/90 text-amber-900 rounded-2xl border border-amber-200">
-                    <span class="text-4xl mb-2 inline-block"></span>
-                    <p class="font-bold text-xl title-font">Invitación Respondida</p>
-                    <p class="text-sm mt-2 text-gray-600">Ya has respondido anteriormente a esta invitación. Si necesitas hacer cambios, comunícate al 318 654 1366.</p>
                 </div>
             </div>
 
@@ -185,18 +170,11 @@
         const seccionInvitacion = document.getElementById('seccion-invitacion');
         const seccionFormulario = document.getElementById('seccion-formulario');
         const mensajeExito = document.getElementById('mensaje-exito');
-        const mensajeBloqueo = document.getElementById('mensaje-bloqueo');
+        const botonesAccion = document.getElementById('botones-accion');
         const form = document.getElementById('rsvp-form');
         const qrCodeImg = document.getElementById('qr-code-img');
 
         window.addEventListener('DOMContentLoaded', () => {
-            const estadoPrevio = localStorage.getItem('valeria_15_estado');
-            if (estadoPrevio === 'respondido') {
-                seccionInvitacion.classList.add('hidden');
-                mensajeBloqueo.classList.remove('hidden');
-                return;
-            }
-
             // 1. Leer parámetros de la URL
             const urlParams = new URLSearchParams(window.location.search);
             const invitadoParam = urlParams.get('invitado');
@@ -209,19 +187,15 @@
             // 2. Si viene el nombre de familia, lo ponemos y lo bloqueamos
             if (invitadoParam) {
                 const nombreDecodificado = decodeURIComponent(invitadoParam);
-                
-                // Mostrar saludo en la portada
                 document.getElementById('nombre-invitado-tarjeta').textContent = nombreDecodificado;
                 document.getElementById('saludo-personalizado').classList.remove('hidden');
                 
-                // Llenar y bloquear el input del formulario
                 inputNombre.value = nombreDecodificado;
                 inputNombre.readOnly = true;
                 inputNombre.classList.add('bg-gray-100', 'cursor-not-allowed');
                 inputNombre.classList.remove('bg-white/90');
             }
 
-            // NUEVO: Si vienen los nombres detallados, los mostramos debajo del input
             if (nombresParam) {
                 const nombresDecodificados = decodeURIComponent(nombresParam);
                 document.getElementById('nombres-detalle').textContent = nombresDecodificados;
@@ -230,26 +204,44 @@
 
             // 3. Configurar los pases
             selectPases.innerHTML = '';
-            
             if (pasesParam) {
-                // Si vienen los pases por URL, obligamos a que sea esa única opción y la bloqueamos
                 const option = document.createElement('option');
                 option.value = pasesParam;
                 option.textContent = `${pasesParam} ${pasesParam == 1 ? 'Pase' : 'Pases'}`;
                 selectPases.appendChild(option);
-                
-                // Bloquear visual y funcionalmente el selector
-                selectPases.setAttribute('disabled', true); // disabled evita que se despliegue
+                selectPases.setAttribute('disabled', true); 
                 selectPases.classList.add('bg-gray-100', 'cursor-not-allowed');
                 selectPases.classList.remove('bg-white/90');
             } else {
-                // Comportamiento normal si no hay link (ej: pruebas manuales)
                 for (let i = 1; i <= 4; i++) {
                     const option = document.createElement('option');
                     option.value = i;
                     option.textContent = `${i} ${i === 1 ? 'Pase' : 'Pases'}`;
                     selectPases.appendChild(option);
                 }
+            }
+
+            // 4. VERIFICAR SI YA RESPONDIÓ PARA TRANSFORMAR LOS BOTONES
+            const estadoPrevio = localStorage.getItem('valeria_15_estado');
+            
+            if (estadoPrevio === 'asistire' || estadoPrevio === 'respondido') {
+                const savedId = localStorage.getItem('valeria_15_id');
+                if(savedId) {
+                    botonesAccion.innerHTML = `
+                        <div class="p-3 bg-green-50 border border-green-200 rounded-xl text-center mb-4">
+                            <p class="text-green-700 font-bold text-sm">✅ Asistencia confirmada</p>
+                        </div>
+                        <button onclick="mostrarPaseGuardado()" class="w-full btn-gold text-white font-semibold py-3 rounded-xl transition shadow-md">
+                            🎟️ Ver mi Pase VIP
+                        </button>
+                    `;
+                }
+            } else if (estadoPrevio === 'no_asistire') {
+                botonesAccion.innerHTML = `
+                    <div class="p-3 bg-gray-50 border border-gray-200 rounded-xl text-center">
+                        <p class="text-gray-600 font-bold text-sm">❌ Has declinado la invitación.</p>
+                    </div>
+                `;
             }
         });
 
@@ -261,6 +253,25 @@
         function volverAInvitacion() {
             seccionFormulario.classList.add('hidden');
             seccionInvitacion.classList.remove('hidden');
+        }
+
+        function volverAInvitacionDesdeExito() {
+            mensajeExito.classList.add('hidden');
+            seccionInvitacion.classList.remove('hidden');
+        }
+
+        function mostrarPaseGuardado() {
+            seccionInvitacion.classList.add('hidden');
+            
+            const savedId = localStorage.getItem('valeria_15_id');
+            const savedNombre = localStorage.getItem('valeria_15_nombre');
+            const savedPases = localStorage.getItem('valeria_15_pases');
+
+            document.getElementById('ticket-nombre').textContent = savedNombre;
+            document.getElementById('ticket-pases').textContent = savedPases == 1 ? '1 PASE' : `${savedPases} PASES`;
+            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${savedId}`;
+            
+            mensajeExito.classList.remove('hidden');
         }
 
         async function registrarNoAsiste() {
@@ -284,9 +295,8 @@
             if (error) {
                 alert('Hubo un error. Inténtalo de nuevo.');
             } else {
-                localStorage.setItem('valeria_15_estado', 'respondido');
-                seccionInvitacion.classList.add('hidden');
-                mensajeBloqueo.classList.remove('hidden');
+                localStorage.setItem('valeria_15_estado', 'no_asistire');
+                window.location.reload(); // Recarga la página para mostrar el nuevo botón
             }
         }
 
@@ -294,13 +304,10 @@
             e.preventDefault();
 
             const nombre = document.getElementById('nombre').value;
-            // Si el select está "disabled", su valor no se lee con .value de forma habitual,
-            // pero como tenemos el parámetro en la URL, lo tomamos de ahí si existe, si no, del select.
             const pasesParam = new URLSearchParams(window.location.search).get('pases');
             const pases = pasesParam ? parseInt(pasesParam) : parseInt(document.getElementById('pases').value);
             const mensaje = document.getElementById('mensaje').value;
 
-            // Inserción a Supabase
             const { data, error } = await supabaseClient
                 .from('asistencias')
                 .insert([{ 
@@ -315,17 +322,18 @@
                 alert('Hubo un error al enviar tu respuesta. Inténtalo de nuevo.');
                 console.error(error);
             } else {
-                // Obtenemos el ID único
                 const registroId = data[0].id;
 
-                // Generamos el QR para que SOLO contenga el ID secreto del invitado
+                // Guardamos todos los datos del boleto en el celular del invitado
+                localStorage.setItem('valeria_15_estado', 'asistire');
+                localStorage.setItem('valeria_15_id', registroId);
+                localStorage.setItem('valeria_15_nombre', nombre);
+                localStorage.setItem('valeria_15_pases', pases);
+
                 qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${registroId}`;
 
-                // Mostramos el éxito y bloqueamos la recarga
-                localStorage.setItem('valeria_15_estado', 'respondido');
                 seccionFormulario.classList.add('hidden');
 
-                // Llenar los datos visuales del boleto VIP
                 document.getElementById('ticket-nombre').textContent = nombre;
                 document.getElementById('ticket-pases').textContent = pases === 1 ? '1 PASE' : `${pases} PASES`;
 
